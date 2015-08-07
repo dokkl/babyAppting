@@ -1,0 +1,7 @@
+target
+build
+bin
+.git
+.svn
+*.class
+*.bak

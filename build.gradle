@@ -1,0 +1,117 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+springBoot {
+    mainClass = "com.hoon.appting.Application"
+}
+
+/*
+jar {
+    baseName = 'babyAppting'
+    version =  '0.0.1-SNAPSHOT'
+}
+*/
+war {
+    baseName = 'babyAppting'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    querydslapt
+}
+
+dependencies {
+    compile files('src/main/webapp/WEB-INF/lib/gcm-server.jar')
+    compile files('src/main/webapp/WEB-INF/lib/gcm-json-simple-1.1.1.jar')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("mysql:mysql-connector-java:5.1.34")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    def querydslVersion = '3.2.4'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
+    compile "com.mysema.querydsl:querydsl-jpa:$querydslVersion"
+    querydslapt "com.mysema.querydsl:querydsl-apt:$querydslVersion"
+
+    //로그 조건부 설정을 사용하려면 아래의 디팬던시를 추가해 주어야 한다
+    compile 'org.codehaus.janino:janino:2.7.7'
+    compile "org.springframework.boot:spring-boot-starter-batch"
+
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")    //for tomcat war
+    //compile("org.apache.tomcat.embed:tomcat-embed-jasper")                  //for embedded execute
+    compile("javax.servlet:jstl:1.2")
+    compile('javax.servlet:javax.servlet-api:3.1.0')
+
+    //아래 4줄은 spring-boot-gradle-plugin:1.1.10.RELEASE 에서필요
+    //compile('javax.servlet:javax.servlet-api:3.1.0')
+    //compile('javax.el:javax.el-api:2.2.4')
+    //compile('org.glassfish.web:el-impl:2.2')
+    //compile('org.hibernate:hibernate-validator:5.1.3.Final')
+
+    //compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.2.0'
+
+    compile 'commons-io:commons-io:2.4'
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/main/generated']
+        }
+    }
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.querydslapt
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.mysema.query.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+compileJava {
+    dependsOn generateQueryDSL
+    source generateQueryDSL.destinationDir
+}
+
+compileGeneratedJava {
+    dependsOn generateQueryDSL
+    options.warnings = false
+    classpath += sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete sourceSets.generated.java.srcDirs
+}
+
+idea {
+    module {
+        sourceDirs += file('src/main/generated')
+    }
+}
