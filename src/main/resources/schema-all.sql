@@ -1,3 +1,4 @@
+/*
 DROP TABLE people;
 
 CREATE TABLE people  (
@@ -7,9 +8,9 @@ CREATE TABLE people  (
     PRIMARY KEY (person_id)
 );
 
-/*
+
 DROP TABLE member;
-DROP TABLE dailyRelation;
+DROP TABLE connect;
 
 CREATE TABLE member (
     id bigint not null auto_increment,
@@ -19,53 +20,60 @@ CREATE TABLE member (
     sex varchar(1),
     phone varchar(20),
     birthday varchar(8),
-	  deviceRegId varchar(255),
-	  phoneAuth varchar(6),
+	  device_reg_id varchar(255),
+	  phone_auth varchar(6),
     age integer(3),
-	  kakaoId varchar(20),
+	  kakao_id varchar(20),
     address1 varchar(20),
 	  address2 varchar(20),
-    createAt datetime,
-	  updateAt datetime,
-	  nickName varchar(20),
+    create_at datetime,
+	  update_at datetime,
+	  nick_name varchar(20),
 	  job varchar(40),
-	  characterType varchar(80),
+	  character_type varchar(80),
 	  height integer(3),
-	  bodyType varchar(80),
+	  body_type varchar(80),
 	  religion varchar(10),
-    bloodType varchar(2),
-	  selfIntroduction varchar(255),
+    blood_type varchar(2),
+	  self_introduction varchar(255),
 	  hobby varchar(160),
-    idealType varchar(120),
-    myAppeal varchar(120),
-    drinkAndSmoke varchar(40),
-    wantDate varchar(100),
- 	  firstPoint varchar(40),
+    ideal_type varchar(120),
+    my_appeal varchar(120),
+    drink_and_smoke varchar(40),
+    want_date varchar(100),
+ 	  first_point varchar(40),
 	  image1 varchar(40),
 	  image2 varchar(40),
 	  image3 varchar(40),
 	  image4 varchar(40),
+	  last_connect_date datetime,
+	  last_connect_count int,
+	  push_ok boolean,
+	  connect_ok boolean,
     PRIMARY KEY (id),
 	  index(mail),
 	  index(name),
-	  index(createAt),
-    index(updateAt)
+	  index(create_at),
+    index(update_at)
 );
 
-create table dailyRelation (
+create table connect (
     id bigint not null auto_increment,
-    relationDay date,
-    male varchar(30),
-    female varchar(30),
-	  maleResponse varchar(20),
-	  femaleResponse varchar(20),
-	  temp1 varchar(50),
+    connect_day date,
+    my_id bigint,
+    target_id bigint,
+		my_response varchar(20),
+		target_response varchar(20),
+		viewed boolean,
+		my_point bigint,
+		temp1 varchar(50),
     temp2 varchar(50),
-    createAt datetime,
-	  updateAt datetime,
-     PRIMARY KEY (id),
-	  index(relationDay),
-	  index(male),
-	  index(female)
+    create_at datetime,
+		update_at datetime,
+    PRIMARY KEY (id),
+		index(connect_day),
+		index(my_id),
+		index(target_id)
 );
 */
+

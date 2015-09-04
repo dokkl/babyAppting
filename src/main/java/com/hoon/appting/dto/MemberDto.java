@@ -11,7 +11,7 @@ public class MemberDto {
     private String mail;
     private String password;
     private String name;
-    private String sex;
+    private Sex sex;
     private String phone;
     private String birthday;
     private Integer age;
@@ -86,11 +86,11 @@ public class MemberDto {
         this.updateAt = updateAt;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 

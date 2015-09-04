@@ -3,7 +3,9 @@ package com.hoon.appting.service;
 
 import com.hoon.appting.dto.ApiDataModel;
 import com.hoon.appting.dto.MemberDto;
+import com.hoon.appting.dto.Sex;
 import com.hoon.appting.entity.Member;
+import com.hoon.appting.entity.QConnect;
 import com.hoon.appting.entity.QMember;
 import com.hoon.appting.repository.MemberRepository;
 import com.hoon.appting.util.CommonUtil;
@@ -119,7 +121,7 @@ public class MemberService {
         return list;
     }
 
-    private void convertMemberToMemberDto(Member member, MemberDto memberDto) {
+    public void convertMemberToMemberDto(Member member, MemberDto memberDto) {
         memberDto.setMail(member.getMail());
         memberDto.setPassword(member.getPassword());
         memberDto.setName(member.getName());
@@ -184,6 +186,7 @@ public class MemberService {
         Member member = memberRepository.findByMail(memberDto.getMail());
         member.setNickName(memberDto.getNickName());
         member.setAddress1(memberDto.getAddress1());
+        member.setAddress2(memberDto.getAddress2());
         member.setBloodType(memberDto.getBloodType());
         member.setReligion(memberDto.getReligion());
         member.setJob(memberDto.getJob());
@@ -227,7 +230,7 @@ public class MemberService {
         return memberDto;
     }
 
-    public List<MemberDto> getMembers(String sex) {
+    public List<MemberDto> getMembers(Sex sex) {
         List<MemberDto> list = new ArrayList<MemberDto>();
         List<Member> memberList = memberRepository.findBySex(sex);
         for (Member member : memberList) {
@@ -269,5 +272,21 @@ public class MemberService {
         Predicate predicate = qMember.createAt.between(today, today2);
         JPAQuery query = new JPAQuery(entityManager);
         return query.from(qMember).where(predicate).count();
+    }
+
+    public List<Member> findTargetMember(Sex sex, int age, String area1) {
+        QMember qMember = QMember.member;
+        Predicate predicate = qMember.sex.ne(sex)
+                                            .and(qMember.age.between(age-4, age+4))
+                                            .and(qMember.address1.eq(area1))
+                                            .and(qMember.lastConnectCount.isNull().or(qMember.lastConnectCount.lt(Integer.valueOf(1))))
+                .and(qMember.lastConnectDate.before(new Date()).or(qMember.lastConnectDate.isNull()));
+        JPAQuery query = new JPAQuery(entityManager);
+        List<Member> targetList = query.from(qMember).where(predicate).list(qMember);
+        return targetList;
+    }
+
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByMail(email);
     }
 }

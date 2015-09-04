@@ -8,6 +8,7 @@ import javax.persistence.*;
  * Created by hoon on 2015-07-21.
  */
 @Entity
+@Table(name = "schedule")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

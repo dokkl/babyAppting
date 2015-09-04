@@ -1,5 +1,6 @@
 package com.hoon.appting.repository;
 
+import com.hoon.appting.dto.Sex;
 import com.hoon.appting.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
@@ -14,5 +15,5 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member, Long> , QueryDslPredicateExecutor<Member> {
     Member findByMail(String mail);
 
-    List<Member> findBySex(String sex);
+    List<Member> findBySex(Sex sex);
 }

@@ -3,6 +3,7 @@ package com.hoon.appting.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoon.appting.dto.ApiDataModel;
 import com.hoon.appting.dto.MemberDto;
+import com.hoon.appting.dto.Sex;
 import com.hoon.appting.service.MemberService;
 
 import jdk.nashorn.internal.parser.JSONParser;
@@ -11,6 +12,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,9 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
+    @Value("${image.home}")
+    private String imageHome;
 
     /*@RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -187,7 +192,7 @@ public class MemberController {
         if (mail == null || mail.equals("")) {  // for test
             mail = "papa@daum.net";
         }
-        File file = new File("C:/temp/" + createFileName(mail));
+        File file = new File(imageHome + File.separator + createFileName(mail));
         System.out.println("file.getAbsolutePath() :" + file.getAbsolutePath());
         Path path = Paths.get(file.getAbsolutePath());
         writeFile(imageFile.getBytes(), file);
@@ -231,8 +236,8 @@ public class MemberController {
     public ModelAndView getAllMembersForWeb() {
         System.out.println("getAllMembersForWeb");
         ModelAndView mv = new ModelAndView("tables");
-        List<MemberDto> maleMemberList = memberService.getMembers("M");
-        List<MemberDto> femaleMemberList = memberService.getMembers("F");
+        List<MemberDto> maleMemberList = memberService.getMembers(Sex.M);
+        List<MemberDto> femaleMemberList = memberService.getMembers(Sex.F);
         System.out.println("maleMemberList size : " + maleMemberList.size());
         System.out.println("femaleMemberList size : " + femaleMemberList.size());
         mv.addObject("maleMemberList", maleMemberList);

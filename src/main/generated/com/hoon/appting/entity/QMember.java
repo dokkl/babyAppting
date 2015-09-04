@@ -15,7 +15,7 @@ import com.mysema.query.types.Path;
 @Generated("com.mysema.query.codegen.EntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = -1294196277;
+    private static final long serialVersionUID = -1294196277L;
 
     public static final QMember member = new QMember("member1");
 
@@ -32,6 +32,8 @@ public class QMember extends EntityPathBase<Member> {
     public final StringPath bodyType = createString("bodyType");
 
     public final StringPath characterType = createString("characterType");
+
+    public final BooleanPath connectOk = createBoolean("connectOk");
 
     public final DateTimePath<java.util.Date> createAt = createDateTime("createAt", java.util.Date.class);
 
@@ -61,6 +63,10 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath kakaoId = createString("kakaoId");
 
+    public final NumberPath<Integer> lastConnectCount = createNumber("lastConnectCount", Integer.class);
+
+    public final DateTimePath<java.util.Date> lastConnectDate = createDateTime("lastConnectDate", java.util.Date.class);
+
     public final StringPath mail = createString("mail");
 
     public final StringPath myAppeal = createString("myAppeal");
@@ -75,11 +81,13 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath phoneAuth = createString("phoneAuth");
 
+    public final BooleanPath pushOk = createBoolean("pushOk");
+
     public final StringPath religion = createString("religion");
 
     public final StringPath selfIntroduction = createString("selfIntroduction");
 
-    public final StringPath sex = createString("sex");
+    public final EnumPath<com.hoon.appting.dto.Sex> sex = createEnum("sex", com.hoon.appting.dto.Sex.class);
 
     public final DateTimePath<java.util.Date> updateAt = createDateTime("updateAt", java.util.Date.class);
 

@@ -76,7 +76,7 @@ public class GcmController {
     @RequestMapping(value = "/pushMessageTest")
     public String pushMessageTest() {
         String msg = "hello! 안녕하세요? 반가워요. ㅎㅎ \n 어디계세요?";
-        String targetIds = gcmService.getTargetId("dokkl@gmail.com");
+        String targetIds = gcmService.getTargetId("dokkl@naver.com");
         List<String> regIds = new ArrayList<>();
         regIds.add(targetIds);
         log.debug("regIds : " + regIds.get(0));

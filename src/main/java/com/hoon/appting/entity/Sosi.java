@@ -7,6 +7,7 @@ import java.util.List;
  * Created by hoon on 2015-07-21.
  */
 @Entity
+@Table(name = "sosi")
 public class Sosi {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,7 +1,11 @@
 package com.hoon.appting.entity;
 
+import com.hoon.appting.dto.Sex;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by hoon on 2015-04-26.
@@ -23,7 +27,8 @@ public class Member {
     private String name;
 
     @Column(nullable = true)
-    private String sex;
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
 
     private String phone;
 
@@ -36,7 +41,7 @@ public class Member {
     private String phoneAuth;
 
     @Column(nullable = true)
-    private Integer age;
+    private Integer age = 0;
 
     @Column(nullable = true)
     private String kakaoId;
@@ -46,8 +51,10 @@ public class Member {
     @Column(nullable = true)
     private String address2;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
 
     //기본사항
@@ -90,6 +97,14 @@ public class Member {
     private String image3;
     private String image4;
 
+    private Date lastConnectDate;
+
+    private Integer lastConnectCount;
+
+    private boolean pushOk = true;
+
+    private boolean connectOk = true;
+
     public Long getId() {
         return id;
     }
@@ -122,11 +137,11 @@ public class Member {
         this.name = name;
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -352,5 +367,37 @@ public class Member {
 
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
+    }
+
+    public Date getLastConnectDate() {
+        return lastConnectDate;
+    }
+
+    public void setLastConnectDate(Date lastConnectDate) {
+        this.lastConnectDate = lastConnectDate;
+    }
+
+    public Integer getLastConnectCount() {
+        return lastConnectCount;
+    }
+
+    public void setLastConnectCount(Integer lastConnectCount) {
+        this.lastConnectCount = lastConnectCount;
+    }
+
+    public boolean isPushOk() {
+        return pushOk;
+    }
+
+    public void setPushOk(boolean pushOk) {
+        this.pushOk = pushOk;
+    }
+
+    public boolean isConnectOk() {
+        return connectOk;
+    }
+
+    public void setConnectOk(boolean connectOk) {
+        this.connectOk = connectOk;
     }
 }

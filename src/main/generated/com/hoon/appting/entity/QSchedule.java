@@ -16,7 +16,7 @@ import com.mysema.query.types.path.PathInits;
 @Generated("com.mysema.query.codegen.EntitySerializer")
 public class QSchedule extends EntityPathBase<Schedule> {
 
-    private static final long serialVersionUID = 1769415048;
+    private static final long serialVersionUID = 1769415048L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
